@@ -1,5 +1,16 @@
 <%- include('header') -%>
 
 <h1><%= title %></h1>
-
-<%- include('footer') -%>
+<section>
+  <h2><%= subtitle %></h2>
+  <% if (events.length === 0) { %>
+  <p class="events__empty">Engir viðburðir.</p>
+  <% } else { %>
+  <dl>
+    <% events.forEach((row) => {%>
+    <dt><a href="/<%= row.slug %>"><%= row.name %></a></dt>
+    <dd><%= row.description %></dd>
+    <% }) %>
+  </dl>
+</section>
+<% } %> <%- include('footer') -%>
