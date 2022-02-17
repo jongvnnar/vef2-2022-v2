@@ -91,3 +91,46 @@ export async function listEvents() {
 
   return result;
 }
+
+export async function selectBySlug(slug) {
+  const q = `
+  SELECT
+    id, name, slug, description, created, updated
+  FROM
+    events
+  WHERE
+   slug = $1::text
+  `;
+  let result = [];
+  try {
+    const queryResult = await query(q, [slug]);
+    if (queryResult && queryResult.rows) {
+      result = queryResult.rows;
+    }
+  } catch (e) {
+    console.error('Error selecting events', e);
+  }
+
+  return result;
+}
+
+export async function selectEventBookings(id) {
+  const q = `
+  SELECT
+    name, comment, created
+  FROM
+    bookings
+  WHERE
+   event = $1::integer
+  `;
+  let result = [];
+  try {
+    const queryResult = await query(q, [id]);
+    if (queryResult && queryResult.rows) {
+      result = queryResult.rows;
+    }
+  } catch (e) {
+    console.error('Error selecting bookings for event', e);
+  }
+  return result;
+}
