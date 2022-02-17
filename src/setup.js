@@ -1,6 +1,17 @@
+import {
+  dropSchema,
+  createSchema,
+  end,
+  insertFromFile,
+  listEvents,
+} from './lib/db.js';
 
 async function create() {
-  // TODO setja upp gagnagrun + gögn
+  await dropSchema();
+  await createSchema();
+  await insertFromFile();
+  console.log(await listEvents());
+  await end();
 }
 
 create().catch((err) => {

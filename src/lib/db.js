@@ -3,6 +3,7 @@ import pg from 'pg';
 
 const SCHEMA_FILE = './sql/schema.sql';
 const DROP_SCHEMA_FILE = './sql/drop.sql';
+const INSERT_FILE = './sql/insert.sql';
 
 const { DATABASE_URL: connectionString, NODE_ENV: nodeEnv = 'development' } =
   process.env;
@@ -62,3 +63,31 @@ export async function end() {
 }
 
 /* TODO útfæra aðgeðir á móti gagnagrunni */
+export async function insertFromFile(insertFile = INSERT_FILE) {
+  const data = await readFile(insertFile);
+
+  return query(data.toString('utf-8'));
+}
+
+export async function listEvents() {
+  let result = [];
+
+  try {
+    const q = `
+      SELECT
+        id, name, slug, description, created, updated
+      FROM
+        events
+    `;
+
+    const queryResult = await query(q);
+
+    if (queryResult && queryResult.rows) {
+      result = queryResult.rows;
+    }
+  } catch (e) {
+    console.error('Error selecting events', e);
+  }
+
+  return result;
+}

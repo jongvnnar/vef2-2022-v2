@@ -1,5 +1,6 @@
 import express from 'express';
 import { catchErrors } from '../lib/catch-errors.js';
+import { listEvents } from '../lib/db.js';
 
 export const indexRouter = express.Router();
 
