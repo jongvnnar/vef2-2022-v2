@@ -160,7 +160,7 @@ async function eventRoute(req, res, next) {
   try {
     const queryResult = await selectBySlug(req.params.slug);
     if (queryResult.length > 0) {
-      event = queryResult[0];
+      [event] = queryResult;
     } else {
       next();
       return;
@@ -182,18 +182,17 @@ async function eventRoute(req, res, next) {
 
 adminRouter.get('/:slug', ensureLoggedIn, catchErrors(eventRoute));
 
-async function changeEvent(req, res) {
+async function changeEvent(req, res, next) {
   const { name, description } = req.body;
   let success = true;
   let event = {};
-  let {slug} = req.params;
+  let { slug } = req.params;
   try {
     const queryResult = await selectBySlug(slug);
     if (queryResult.length > 0) {
-      event = queryResult[0];
+      [event] = queryResult;
     } else {
-      next();
-      return;
+      return next();
     }
   } catch (e) {
     console.error(e);

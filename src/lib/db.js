@@ -1,6 +1,5 @@
 import { readFile } from 'fs/promises';
 import pg from 'pg';
-import { createSlug } from './create-slug.js';
 
 const SCHEMA_FILE = './sql/schema.sql';
 const DROP_SCHEMA_FILE = './sql/drop.sql';
@@ -200,7 +199,6 @@ export async function insertEvent({ name, description, slug } = {}) {
 }
 
 export async function updateEvent({ name, description, slug, id } = {}) {
-  console.log({ name, description, slug, id });
   const currentTime = new Date();
   const q = `
     UPDATE events

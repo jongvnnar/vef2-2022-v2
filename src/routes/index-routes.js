@@ -34,7 +34,7 @@ async function eventRoute(req, res, next) {
   try {
     const queryResult = await selectBySlug(req.params.slug);
     if (queryResult.length > 0) {
-      event = queryResult[0];
+      [event] = queryResult;
       bookings = await selectEventBookings(event.id);
     } else {
       next();
@@ -81,11 +81,10 @@ async function validationCheck(req, res, next) {
   try {
     const queryResult = await selectBySlug(req.params.slug);
     if (queryResult.length > 0) {
-      event = queryResult[0];
+      [event] = queryResult;
       bookings = await selectEventBookings(event.id);
     } else {
-      next();
-      return;
+      return next();
     }
   } catch (e) {
     console.error(e);
@@ -112,7 +111,7 @@ async function register(req, res) {
   try {
     const queryResult = await selectBySlug(req.params.slug);
     if (queryResult.length > 0) {
-      event = queryResult[0];
+      [event] = queryResult;
       success = await insertBooking({
         name,
         comment,
