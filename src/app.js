@@ -40,9 +40,8 @@ app.locals = {
   isInvalid: isInvalid,
 };
 
-app.use('/', indexRouter);
 app.use('/admin', adminRouter);
-// TODO admin routes
+app.use('/', indexRouter);
 
 /** Middleware sem sér um 404 villur. */
 app.use((req, res) => {

@@ -1,2 +1,62 @@
-<%- include('./shared/header') -%> <%- include('./shared/list-events') -%> <%-
-include('./shared/footer')-%>
+<%- include('./shared/header') -%>
+<h1><%= title %></h1>
+<section>
+  <h2><%= subtitle %></h2>
+  <% if (events.length === 0) { %>
+  <p class="events__empty">Engir viðburðir.</p>
+  <% } else { %>
+  <dl>
+    <% events.forEach((row) => {%>
+    <dt><a href="/<%= row.slug %>"><%= row.name %></a></dt>
+    <dd><%= row.description %></dd>
+    <dd><a href="/admin/<%= row.slug %>">Uppfæra viðburð</a></dd>
+    <% }) %>
+  </dl>
+</section>
+<% } %>
+<section>
+  <h2>Nýr viðburður</h2>
+  <form
+    method="post"
+    action="/admin"
+    enctype="application/x-www-form-urlencoded"
+    class="form form--separated"
+  >
+    <div
+      class="field<%= locals.isInvalid('name', errors) ? ' field--invalid' : '' %>"
+    >
+      <label for="name">Nafn*</label>
+      <input
+        type="text"
+        name="name"
+        id="name"
+        value="<%= formData.name %>"
+        class=""
+      />
+    </div>
+
+    <div
+      class="field field--textarea<%= locals.isInvalid('description', errors) ? ' field--invalid' : '' %>"
+    >
+      <label for="description">Lýsing:</label>
+      <textarea name="description" id="description">
+<%= formData.description %></textarea
+      >
+    </div>
+
+    <% if (errors.length > 0) { %>
+    <h2 class="errors__title">Villur við undirskrift:</h2>
+    <ul class="errors">
+      <% errors.forEach((error) => { %>
+      <li class="error">
+        <label for="<%= error.param %>"><%= error.msg %></label>
+      </li>
+      <% }); %>
+    </ul>
+    <% } %>
+
+    <button class="button button--large button--margin">Skrá viðburð</button>
+  </form>
+</section>
+
+<%- include('./shared/bottom') -%> <%- include('./shared/footer')-%>

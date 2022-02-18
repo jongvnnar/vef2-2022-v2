@@ -155,3 +155,50 @@ export async function insertBooking({ name, comment, id } = {}) {
 
   return success;
 }
+
+export async function selectEventByName(name) {
+  const q = `
+  SELECT
+    id
+  FROM
+    events
+  WHERE
+   name = $1::text
+  `;
+  let result = [];
+  try {
+    const queryResult = await query(q, [name]);
+    if (queryResult && queryResult.rows) {
+      result = queryResult.rows;
+    }
+  } catch (e) {
+    console.error('Error selecting events', e);
+  }
+
+  return result;
+}
+
+export async function insertEvent({ name, description, slug } = {}) {
+  let success = true;
+  const numSameNameEvents = (await selectEventByName(name)).length;
+  //ensures there can be differing events with the same name while not having the same slug
+  if (numSameNameEvents > 0) {
+    slug = slug + '-' + numSameNameEvents;
+  }
+  const q = `
+    INSERT INTO events
+      (name, description, slug)
+    VALUES
+      ($1, $2, $3);
+  `;
+  const values = [name, description, slug];
+
+  try {
+    await query(q, values);
+  } catch (e) {
+    console.error('Error inserting event', e);
+    success = false;
+  }
+
+  return success;
+}

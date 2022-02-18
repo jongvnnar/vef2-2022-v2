@@ -1,3 +1,9 @@
 <section>
+  <% if(typeof(username) !== "undefined") { %>
+  <div class="userinfo">
+    <p>Innskráður sem: <strong><%=username %></strong></p>
+    <a href="/admin/logout">Útskrá</a>
+  </div>
+  <% } %>
   <a href="/">Til baka</a>
 </section>
