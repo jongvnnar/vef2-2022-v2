@@ -6,7 +6,7 @@ import { catchErrors } from '../lib/catch-errors.js';
 import {
   listEvents,
   selectBySlug,
-  selectEventBookings,
+  updateEvent,
   insertEvent,
 } from '../lib/db.js';
 import { body, validationResult } from 'express-validator';
@@ -124,7 +124,7 @@ async function addEvent(req, res) {
   let event = {
     name,
     description,
-    slug: createSlug(name),
+    slug: await createSlug(name),
   };
 
   try {
@@ -143,7 +143,6 @@ async function addEvent(req, res) {
   });
 }
 
-// adminRouter.get('/:slug', catchErrors(eventRoute));
 adminRouter.post(
   '/',
   validationMiddleware,
@@ -151,4 +150,84 @@ adminRouter.post(
   catchErrors(validationCheck),
   sanitizationMiddleware,
   catchErrors(addEvent)
+);
+
+async function eventRoute(req, res, next) {
+  let event = {};
+  const { user } = req;
+  let bookings = [];
+  const errors = [];
+  try {
+    const queryResult = await selectBySlug(req.params.slug);
+    if (queryResult.length > 0) {
+      event = queryResult[0];
+    } else {
+      next();
+      return;
+    }
+  } catch (e) {
+    console.error(e);
+  }
+  const { name, description } = event;
+  const formData = { name, description };
+  res.render('admin-event', {
+    title: event.name,
+    event,
+    bookings,
+    errors,
+    username: user.username,
+    formData,
+  });
+}
+
+adminRouter.get('/:slug', ensureLoggedIn, catchErrors(eventRoute));
+
+async function changeEvent(req, res) {
+  const { name, description } = req.body;
+  let success = true;
+  let event = {};
+  let slug = req.params.slug;
+  try {
+    const queryResult = await selectBySlug(slug);
+    if (queryResult.length > 0) {
+      event = queryResult[0];
+    } else {
+      next();
+      return;
+    }
+  } catch (e) {
+    console.error(e);
+  }
+  if (name !== event.name) {
+    slug = await createSlug(name);
+  }
+  try {
+    success = await updateEvent({
+      name,
+      description,
+      slug,
+      id: event.id,
+    });
+  } catch (e) {
+    console.error(e);
+    success = false;
+  }
+
+  if (success) {
+    return res.redirect(`/admin/${slug}`);
+  }
+
+  return res.render('error', {
+    title: 'Gat ekki uppfært viðburð!',
+    text: 'Skráning gekk ekki eftir :/',
+  });
+}
+
+adminRouter.post(
+  '/:slug',
+  validationMiddleware,
+  xssSanitizationMiddleware,
+  catchErrors(validationCheck),
+  sanitizationMiddleware,
+  catchErrors(changeEvent)
 );

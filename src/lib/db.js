@@ -1,5 +1,6 @@
 import { readFile } from 'fs/promises';
 import pg from 'pg';
+import { createSlug } from './create-slug.js';
 
 const SCHEMA_FILE = './sql/schema.sql';
 const DROP_SCHEMA_FILE = './sql/drop.sql';
@@ -180,11 +181,6 @@ export async function selectEventByName(name) {
 
 export async function insertEvent({ name, description, slug } = {}) {
   let success = true;
-  const numSameNameEvents = (await selectEventByName(name)).length;
-  //ensures there can be differing events with the same name while not having the same slug
-  if (numSameNameEvents > 0) {
-    slug = slug + '-' + numSameNameEvents;
-  }
   const q = `
     INSERT INTO events
       (name, description, slug)
@@ -200,5 +196,25 @@ export async function insertEvent({ name, description, slug } = {}) {
     success = false;
   }
 
+  return success;
+}
+
+export async function updateEvent({ name, description, slug, id } = {}) {
+  console.log({ name, description, slug, id });
+  const currentTime = new Date();
+  const q = `
+    UPDATE events
+      SET (name, description, slug, updated) =
+      ($1, $2, $3, $4)
+      WHERE id = $5;
+  `;
+  const values = [name, description, slug, currentTime, id];
+  let success = true;
+  try {
+    await query(q, values);
+  } catch (e) {
+    console.error('Error inserting event', e);
+    success = false;
+  }
   return success;
 }
