@@ -10,7 +10,6 @@ async function create() {
   await dropSchema();
   await createSchema();
   await insertFromFile();
-  console.log(await listEvents());
   await end();
 }
 

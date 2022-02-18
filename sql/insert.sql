@@ -24,4 +24,4 @@ insert into bookings (name, comment, event) values ('Björn', 'geggjað event', 
 insert into bookings (name, comment, event) values ('Björn', 'lit', 4);
 
 TRUNCATE table users;
--- insert into users (name, password) values
+insert into users (username, password) values ('admin', '$2b$11$n.pjIaWZXpXYj2/9AKT4m.OudzxVVdTlUHiiy9utgdUVsiCqC9K8O');
