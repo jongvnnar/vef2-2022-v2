@@ -134,3 +134,24 @@ export async function selectEventBookings(id) {
   }
   return result;
 }
+
+export async function insertBooking({ name, comment, id } = {}) {
+  let success = true;
+
+  const q = `
+    INSERT INTO bookings
+      (name, comment, event)
+    VALUES
+      ($1, $2, $3);
+  `;
+  const values = [name, comment, id];
+
+  try {
+    await query(q, values);
+  } catch (e) {
+    console.error('Error inserting booking', e);
+    success = false;
+  }
+
+  return success;
+}

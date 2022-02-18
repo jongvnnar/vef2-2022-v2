@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS events(
 CREATE TABLE IF NOT EXISTS bookings(
   id serial primary key,
   name varchar(64) not NULL,
-  comment varchar(400),
+  comment varchar(128),
   event integer not NULL,
   created timestamp with time zone not NULL default current_timestamp,
   foreign key(event) references events(id)

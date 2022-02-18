@@ -23,3 +23,5 @@ insert into bookings (name, comment, event) values ('Björn', 'eg er svo spenntu
 insert into bookings (name, comment, event) values ('Björn', 'geggjað event', 3);
 insert into bookings (name, comment, event) values ('Björn', 'lit', 4);
 
+TRUNCATE table users;
+insert into users (name, password) values

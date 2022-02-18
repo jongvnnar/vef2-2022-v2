@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
+import { formatDate, isInvalid } from './lib/template-helpers.js';
 import { indexRouter } from './routes/index-routes.js';
 
 dotenv.config();
@@ -21,6 +22,8 @@ app.set('view engine', 'ejs');
 
 app.locals = {
   // TODO hjálparföll fyrir template
+  formatDate: formatDate,
+  isInvalid: isInvalid,
 };
 
 app.use('/', indexRouter);
