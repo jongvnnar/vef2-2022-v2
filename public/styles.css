@@ -26,8 +26,8 @@ html {
 body {
   font-family: Helvetica, Arial, sans-serif;
   font-size: 16px;
-  margin: 0 auto;
   height: 100vh;
+  margin: 0 auto;
   max-width: 900px;
   padding: 1rem;
 }
@@ -63,7 +63,7 @@ section {
 
 /* unvisited link */
 a:link {
-  color: var(--color-accent);
+  color: var(--color-accent-dark);
 }
 
 /* visited link */
@@ -88,15 +88,15 @@ li {
 main {
   display: flex;
   flex: 1;
+  flex-direction: column;
   height: 100%;
   max-width: 800px;
-  flex-direction: column;
 }
 
 .footer {
+  border-top: 1px solid var(--color-accent-dark);
   margin-top: auto;
   padding: 10px 0;
-  border-top: 1px solid var(--color-accent-dark);
 }
 
 .link--bold {
@@ -122,8 +122,8 @@ main {
 .field {
   display: flex;
   flex-direction: column;
-  width: 100%;
   margin-bottom: 1rem;
+  width: 100%;
 }
 
 .field label {
@@ -133,20 +133,19 @@ main {
 
 .field input,
 .field textarea {
-  flex: 1;
-  width: 100%;
-
-  padding: 8px;
-
   border: 1px solid var(--color-accent);
   border-radius: 3px;
+  flex: 1;
+
+  padding: 8px;
+  width: 100%;
 }
 
 .field input:focus,
 .field textarea:focus {
-  outline-color: var(--color-accent-dark);
-  -webkit-box-shadow: none;
   box-shadow: none;
+  box-shadow: none;
+  outline-color: var(--color-accent-dark);
 }
 
 .field--textarea {
@@ -161,20 +160,20 @@ main {
 
 .field--invalid input,
 .field--invalid textarea {
-  border-color: var(--color-accent);
   background-color: #fbb;
+  border-color: var(--color-accent);
 }
 
 .button {
-  width: 100%;
-  max-width: 300px;
+  background-color: var(--color-accent);
   border: 1px solid var(--color-accent);
   border-radius: 8px;
+  max-width: 300px;
   padding: 0.5rem;
-  background-color: var(--color-accent);
+  width: 100%;
 }
 
 .button:hover {
-  cursor: pointer;
   background-color: var(--color-accent-light);
+  cursor: pointer;
 }
