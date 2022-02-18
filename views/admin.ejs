@@ -2,16 +2,18 @@
 <h1><%= title %></h1>
 <section>
   <h2><%= subtitle %></h2>
-  <% if (events.length === 0) { %>
+  <% if (events.length===0) { %>
   <p class="events__empty">Engir viðburðir.</p>
   <% } else { %>
-  <dl>
-    <% events.forEach((row) => {%>
-    <dt><a href="/<%= row.slug %>"><%= row.name %></a></dt>
-    <dd><%= row.description %></dd>
-    <dd><a href="/admin/<%= row.slug %>">Uppfæra viðburð</a></dd>
+  <ul>
+    <% events.forEach((row)=> {%>
+    <li>
+      <a class="link--bold" href="/<%= row.slug %>"> <%= row.name %> </a>
+      <p class="text--secondary"><%= row.description %></p>
+      <a href="/admin/<%= row.slug %>">Uppfæra viðburð</a>
+    </li>
     <% }) %>
-  </dl>
+  </ul>
 </section>
 <% } %>
 <section>
@@ -44,18 +46,18 @@
       >
     </div>
 
-    <% if (errors.length > 0) { %>
+    <% if (errors.length> 0) { %>
     <h2 class="errors__title">Villur við undirskrift:</h2>
     <ul class="errors">
-      <% errors.forEach((error) => { %>
+      <% errors.forEach((error)=> { %>
       <li class="error">
-        <label for="<%= error.param %>"><%= error.msg %></label>
+        <label for="<%= error.param %>"> <%= error.msg %> </label>
       </li>
       <% }); %>
     </ul>
     <% } %>
 
-    <button class="button button--large button--margin">Skrá viðburð</button>
+    <button class="button">Skrá viðburð</button>
   </form>
 </section>
 

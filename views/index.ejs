@@ -1,19 +1,29 @@
 <%- include('./shared/header') -%>
-<h1><%= title %></h1>
-<section>
-  <h2><%= subtitle %></h2>
-  <% if (events.length === 0) { %>
-  <p class="events__empty">Engir viðburðir.</p>
-  <% } else { %>
-  <dl>
-    <% events.forEach((row) => {%>
-    <dt><a href="/<%= row.slug %>"><%= row.name %></a></dt>
-    <dd><%= row.description %></dd>
-    <% }) %>
-  </dl>
-</section>
-<% } %>
-<section>
-  <a href="/admin">Síða stjórnenda</a>
-</section>
-<%- include('./shared/footer') -%>
+  <h1>
+    <%= title %>
+  </h1>
+  <h2>
+    <%= subtitle %>
+  </h2>
+  <section class="events_container">
+    <% if (events.length===0) { %>
+      <p class="events__empty">Engir viðburðir.</p>
+      <% } else { %>
+        <ul>
+          <% events.forEach((row)=> {%>
+            <li>
+              <a class="link--bold" href="/<%= row.slug %>">
+                <%= row.name %>
+              </a>
+              <p class="text--secondary">
+                <%= row.description %>
+              </p>
+            </li>
+            <% }) %>
+        </ul>
+  </section>
+  <% } %>
+    <section class="footer">
+      <a href="/admin">Síða stjórnenda</a>
+    </section>
+    <%- include('./shared/footer') -%>

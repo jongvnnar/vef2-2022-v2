@@ -1,6 +1,7 @@
 import express from 'express';
 import xss from 'xss';
 
+import { body, validationResult } from 'express-validator';
 import passport, { ensureLoggedIn } from '../lib/login.js';
 import { catchErrors } from '../lib/catch-errors.js';
 import {
@@ -9,7 +10,6 @@ import {
   updateEvent,
   insertEvent,
 } from '../lib/db.js';
-import { body, validationResult } from 'express-validator';
 import { createSlug } from '../lib/create-slug.js';
 
 export const adminRouter = express.Router();
@@ -121,7 +121,7 @@ async function addEvent(req, res) {
   const { name, description } = req.body;
 
   let success = true;
-  let event = {
+  const event = {
     name,
     description,
     slug: await createSlug(name),
@@ -134,7 +134,7 @@ async function addEvent(req, res) {
   }
 
   if (success) {
-    return res.redirect(`/admin`);
+    return res.redirect('/admin');
   }
 
   return res.render('error', {
@@ -155,7 +155,7 @@ adminRouter.post(
 async function eventRoute(req, res, next) {
   let event = {};
   const { user } = req;
-  let bookings = [];
+  const bookings = [];
   const errors = [];
   try {
     const queryResult = await selectBySlug(req.params.slug);
@@ -186,7 +186,7 @@ async function changeEvent(req, res) {
   const { name, description } = req.body;
   let success = true;
   let event = {};
-  let slug = req.params.slug;
+  let {slug} = req.params;
   try {
     const queryResult = await selectBySlug(slug);
     if (queryResult.length > 0) {

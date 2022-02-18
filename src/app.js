@@ -2,9 +2,9 @@ import dotenv from 'dotenv';
 import express from 'express';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
+import session from 'express-session';
 import { isInvalid } from './lib/template-helpers.js';
 import { indexRouter } from './routes/index-routes.js';
-import session from 'express-session';
 import passport from './lib/login.js';
 import { adminRouter } from './routes/admin-routes.js';
 
@@ -37,7 +37,7 @@ app.use(passport.session());
 
 app.locals = {
   // TODO hjálparföll fyrir template
-  isInvalid: isInvalid,
+  isInvalid,
 };
 
 app.use('/admin', adminRouter);

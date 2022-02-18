@@ -5,14 +5,14 @@
 </section>
 <section>
   <h2>Skráningar á viðburð</h2>
-  <% if (bookings.length === 0) { %>
+  <% if (bookings.length===0) { %>
   <p>Engin skráð á þennan viðburð.</p>
   <% } else { %>
   <ul>
-    <% bookings.forEach((row) => {%>
+    <% bookings.forEach((row)=> {%>
     <li>
-      <p class="booking_name"><%= row.name %></p>
-      <p class="booking_comment"><%= row.comment %></p>
+      <p class="text--emph"><%= row.name %></p>
+      <p class="text--secondary"><%= row.comment %></p>
     </li>
     <% }) %>
   </ul>
@@ -24,7 +24,7 @@
     method="post"
     action="/<%= event.slug %>"
     enctype="application/x-www-form-urlencoded"
-    class="form form--separated"
+    class="form"
   >
     <div
       class="field<%= locals.isInvalid('name', errors) ? ' field--invalid' : '' %>"
@@ -46,18 +46,18 @@
       <textarea name="comment" id="comment"><%= formData.comment %></textarea>
     </div>
 
-    <% if (errors.length > 0) { %>
+    <% if (errors.length> 0) { %>
     <h2 class="errors__title">Villur við skráningu:</h2>
     <ul class="errors">
-      <% errors.forEach((error) => { %>
+      <% errors.forEach((error)=> { %>
       <li class="error">
-        <label for="<%= error.param %>"><%= error.msg %></label>
+        <label for="<%= error.param %>"> <%= error.msg %> </label>
       </li>
       <% }); %>
     </ul>
     <% } %>
 
-    <button class="button button--large button--margin">Skrá mig</button>
+    <button class="button">Skrá mig</button>
   </form>
 </section>
 

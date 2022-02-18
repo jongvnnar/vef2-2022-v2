@@ -3,10 +3,10 @@ import { selectEventByName } from './db.js';
 // createSlug koði fenginn héðan https://gist.github.com/codeguy/6684588?permalink_comment_id=2820314#gistcomment-2820314
 export const createSlug = async (str) => {
   // MY CODE
-  //ensures there can be differing events with the same name while not having the same slug
+  // ensures there can be differing events with the same name while not having the same slug
   const numSameNameEvents = (await selectEventByName(str)).length;
   if (numSameNameEvents > 0) {
-    str = str + '-' + numSameNameEvents;
+    str = `${str  }-${  numSameNameEvents}`;
   }
 
   str = String(str).toString();

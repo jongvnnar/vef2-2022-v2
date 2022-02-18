@@ -1,9 +1,7 @@
-<section>
+<section class="footer">
   <% if(typeof(username) !== "undefined") { %>
-  <div class="userinfo">
     <p>Innskráður sem: <strong><%=username %></strong></p>
-    <a href="/admin/logout">Útskrá</a>
-  </div>
+    <a class="logout" href="/admin/logout">Útskrá</a>
   <% } %>
-  <a href="/">Til baka</a>
+  <a class="link" href="/">Til baka</a>
 </section>

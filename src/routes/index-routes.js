@@ -1,4 +1,6 @@
 import express from 'express';
+import { body, validationResult } from 'express-validator';
+import xss from 'xss';
 import { catchErrors } from '../lib/catch-errors.js';
 import {
   listEvents,
@@ -6,8 +8,6 @@ import {
   selectEventBookings,
   insertBooking,
 } from '../lib/db.js';
-import { body, validationResult } from 'express-validator';
-import xss from 'xss';
 
 export const indexRouter = express.Router();
 
