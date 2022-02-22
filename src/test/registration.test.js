@@ -1,8 +1,9 @@
 import { describe, expect, it } from '@jest/globals';
 import { validationResult } from 'express-validator';
 import {
-  registrationValidationMiddleware,
+  validationMiddleware,
   xssSanitizationMiddleware,
+  sanitizationMiddleware,
 } from '../routes/index-routes';
 
 // Hjálparfall sem leyfir okkur að testa express-validator middleware
@@ -24,27 +25,35 @@ describe('registration', () => {
         name: '',
       },
     };
-
-    const registrationValidationMiddleware = []; // TODO Sækja á réttan stað
-
-    await applyAllMiddlewares(req);
+    await applyAllMiddlewares(req, validationMiddleware);
 
     const validation = validationResult(req);
 
     expect(validation.isEmpty()).toBe(false);
   });
 
-  it('sanitizes', async () => {
+  it('sanitizes xss', async () => {
     const req = {
       body: {
         name: '<script>alert(1)</script>',
       },
     };
 
-    const xssSanitizationMiddleware = []; // TODO Sækja á réttan stað
-
     await applyAllMiddlewares(req, xssSanitizationMiddleware);
 
     expect(req.body.name).toBe('&lt;script&gt;alert(1)&lt;/script&gt;');
+  });
+
+  it('trims', async () => {
+    const req = {
+      body: {
+        name: '      name          ',
+        comment: '            comment           ',
+      },
+    };
+
+    await applyAllMiddlewares(req, sanitizationMiddleware);
+    const expected = { name: 'name', comment: 'comment' };
+    expect(req.body).toEqual(expected);
   });
 });

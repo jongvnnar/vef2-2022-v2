@@ -1,6 +1,12 @@
 import { afterAll, beforeAll, describe, expect, it } from '@jest/globals';
 
-import { createSchema, dropSchema, end } from '../lib/db';
+import {
+  createSchema,
+  dropSchema,
+  end,
+  insertEvent,
+  selectBySlug,
+} from '../lib/db';
 
 /**
  * Hér er test gagnagrunnur búinn til og hent áður en test eru keyrð.
@@ -18,7 +24,19 @@ describe('db', () => {
     await end();
   });
 
-  it('creates a valid event and returns it', async () => {
-    // TODO útfæra test
+  it('creates a valid event, event exists', async () => {
+    const success = await insertEvent({
+      name: 'name',
+      description: 'description',
+      slug: 'slug',
+    });
+    expect(success).toBeTruthy();
+    const result = await selectBySlug('slug');
+    const { name, description, slug } = result[0];
+    expect({ name, description, slug }).toEqual({
+      name: 'name',
+      description: 'description',
+      slug: 'slug',
+    });
   });
 });
