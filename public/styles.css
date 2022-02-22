@@ -177,3 +177,8 @@ main {
   background-color: var(--color-accent-light);
   cursor: pointer;
 }
+
+.error {
+  display: flex;
+  justify-content: center;
+}
